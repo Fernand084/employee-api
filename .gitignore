@@ -1,8 +1,35 @@
 HELP.md
 target/
+*.class
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+
+# Credentials
+**/application.properties
+application-local.properties
+application-dev.properties
+application-prod.properties
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos de log
+*.log
+
+# Archivos de entorno
+.env
+
+# Docker
+*.pid
+*.tar
+docker-compose.override.yml
+
+# DB
+*.sql
+*.gz
+*.dump
 
 ### STS ###
 .apt_generated

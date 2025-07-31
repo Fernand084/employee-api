@@ -1,0 +1,33 @@
+services:
+  db:
+    image: postgres:16
+    container_name: employee-db
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: employees
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - ./init:/docker-entrypoint-initdb.d
+    networks:
+      - employee-network
+
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    container_name: employee-api
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/employees
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: password
+    depends_on:
+      - db
+    networks:
+      - employee-network
+
+networks:
+  employee-network:
+    driver: bridge
