@@ -19,7 +19,7 @@ public class DepartmentService {
     public List<DepartmentDTO> getAllDepartments() {
         return departmentRepository.findAll()
                 .stream()
-                .map(d -> new DepartmentDTO(d.getDeptName()))
+                .map(d -> new DepartmentDTO(d.getId(), d.getDeptName()))
                 .toList();
     }
 
