@@ -6,10 +6,10 @@ target/
 !**/src/test/**/target/
 
 # Credentials
-**/application.properties
 application-local.properties
 application-dev.properties
 application-prod.properties
+database-config.properties
 
 # Archivos del sistema operativo
 .DS_Store
@@ -58,3 +58,8 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
