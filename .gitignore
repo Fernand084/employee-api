@@ -4,12 +4,15 @@ target/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+*.jar
 
 # Credentials
+**/application.properties
 application-local.properties
 application-dev.properties
 application-prod.properties
 database-config.properties
+database.properties
 
 # Archivos del sistema operativo
 .DS_Store
@@ -63,3 +66,4 @@ build/
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+.ebextensions/*
