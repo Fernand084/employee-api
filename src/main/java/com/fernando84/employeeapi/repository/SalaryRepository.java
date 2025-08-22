@@ -17,14 +17,26 @@ public interface SalaryRepository extends JpaRepository<Salary, SalaryId> {
 
     List<Salary> findTop10ByOrderByAmountDesc();
 
-    @Query("""
-                SELECT new com.fernando84.employeeapi.DTO.DepartmentSalaryAverageDTO(d.id, AVG(s.amount))
-                FROM DepartmentEmployee de
-                JOIN de.department d
-                JOIN de.employee e
-                JOIN Salary s ON s.id.employeeId = e.id
-                GROUP BY d.id
-            """)
+    @Query(value = """
+                SELECT
+                    de.department_id,
+                    (select dept_name
+                        from employees.department
+                        where id = de.department_id) as dept_name,
+                    AVG(s.amount)
+                FROM (
+                SELECT s.employee_id, s.amount
+                FROM employees.salary s
+                JOIN (
+                    SELECT employee_id, MAX(from_date) AS latest_date
+                    FROM employees.salary
+                    GROUP BY employee_id
+                ) latest ON s.employee_id = latest.employee_id AND s.from_date = latest.latest_date
+                ) s
+                JOIN employees.department_employee de
+                ON s.employee_id = de.employee_id
+                group by  de.department_id;
+            """, nativeQuery = true)
     List<DepartmentSalaryAverageDTO> findAverageSalaryByDepartment();
 
 }
