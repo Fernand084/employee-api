@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.fernando84.employeeapi.DTO.DepartmentSalaryAverageDTO;
+import com.fernando84.employeeapi.DTO.TopSalariesDTO;
 import com.fernando84.employeeapi.model.Salary;
 import com.fernando84.employeeapi.model.SalaryId;
 
@@ -15,7 +16,20 @@ public interface SalaryRepository extends JpaRepository<Salary, SalaryId> {
 
     List<Salary> findByIdEmployeeId(Long employee_id);
 
-    List<Salary> findTop10ByOrderByAmountDesc();
+    @Query(value = """
+            select de.employee_id, de.department_id, s.amount, dept.dept_name
+            from employees.department_employee de
+            join (
+                select id, dept_name
+                from employees.department
+                order by id
+            ) dept on dept.id = de.department_id
+            join employees.salary s on s.employee_id = de.employee_id
+            where de.department_id = ?
+            order by s.amount desc
+            limit 100;
+            """, nativeQuery = true)
+    List<TopSalariesDTO> findTopSalariesByDepartment(String id);
 
     @Query(value = """
                 SELECT

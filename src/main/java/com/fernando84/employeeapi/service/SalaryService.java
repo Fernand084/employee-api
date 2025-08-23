@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.fernando84.employeeapi.DTO.DepartmentSalaryAverageDTO;
 import com.fernando84.employeeapi.DTO.SalaryDTO;
+import com.fernando84.employeeapi.DTO.TopSalariesDTO;
 import com.fernando84.employeeapi.model.Salary;
 import com.fernando84.employeeapi.repository.SalaryRepository;
 
@@ -41,18 +42,8 @@ public class SalaryService {
                                 .toList();
         }
 
-        public ResponseEntity<List<SalaryDTO>> getTopSalaries() {
-                List<Salary> salaries = salaryRepository.findTop10ByOrderByAmountDesc();
-
-                List<SalaryDTO> result = salaries.stream()
-                                .map(s -> new SalaryDTO(
-                                                s.getId().getEmployeeId(),
-                                                s.getAmount(),
-                                                s.getId().getFromDate(),
-                                                s.getToDate()))
-                                .collect(Collectors.toList());
-
-                return ResponseEntity.ok(result);
+        public List<TopSalariesDTO> getTopSalaries(String id) {
+                return salaryRepository.findTopSalariesByDepartment(id);
         }
 
         public List<DepartmentSalaryAverageDTO> getAverageSalariesByDepartment() {
