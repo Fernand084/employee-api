@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fernando84.employeeapi.DTO.DepartmentSalaryAverageDTO;
-import com.fernando84.employeeapi.DTO.SalaryDTO;
 import com.fernando84.employeeapi.DTO.TopSalariesDTO;
 import com.fernando84.employeeapi.service.SalaryService;
 
