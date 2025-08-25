@@ -1,0 +1,9 @@
+# Ignora todo lo innecesario
+.git
+.gitignore
+*.md
+*.iml
+*.idea/
+*.log
+target/
+!target/application.jar
