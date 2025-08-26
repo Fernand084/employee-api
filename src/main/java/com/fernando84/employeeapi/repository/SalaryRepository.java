@@ -26,8 +26,8 @@ public interface SalaryRepository extends JpaRepository<Salary, SalaryId> {
             ) dept on dept.id = de.department_id
             join employees.salary s on s.employee_id = de.employee_id
             where de.department_id = ?
-            order by s.amount desc
-            limit 100;
+            and s.to_date = '1999-01-01'
+            order by s.amount desc;
             """, nativeQuery = true)
     List<TopSalariesDTO> findTopSalariesByDepartment(String id);
 
