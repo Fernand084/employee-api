@@ -2,6 +2,9 @@ package com.fernando84.employeeapi.model;
 
 import java.util.List;
 
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -18,6 +21,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Department {
     @Id
+    @JdbcTypeCode(SqlTypes.CHAR)
+    @Column(name = "id", length = 4)
     private String id;
 
     @OneToMany(mappedBy = "department")

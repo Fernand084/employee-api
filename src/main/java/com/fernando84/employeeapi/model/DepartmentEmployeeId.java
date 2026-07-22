@@ -3,6 +3,9 @@ package com.fernando84.employeeapi.model;
 import java.io.Serializable;
 import java.util.Objects;
 
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
@@ -17,7 +20,8 @@ public class DepartmentEmployeeId implements Serializable {
 
     @Column(name = "employee_id")
     private Long employeeId;
-    @Column(name = "department_id")
+    @JdbcTypeCode(SqlTypes.CHAR)
+    @Column(name = "id", length = 4)
     private String departmentId;
 
     @Override
