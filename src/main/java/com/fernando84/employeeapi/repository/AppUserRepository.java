@@ -1,4 +1,4 @@
-package com.fernando84.employeeapi.model;
+package com.fernando84.employeeapi.repository;
 
 import com.fernando84.employeeapi.model.AppUser;
 import org.springframework.data.jpa.repository.JpaRepository;
