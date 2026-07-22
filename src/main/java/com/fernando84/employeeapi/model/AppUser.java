@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "app_user")
+@Table(name = "app_user", schema = "app_security")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -18,7 +18,7 @@ public class AppUser {
     @Column(nullable = false, unique = true)
     private String username;
 
-    // Guardamos el HASH, nunca el password en texto plano
+    // saves HASH, never plain text
     @Column(nullable = false)
     private String password;
 
