@@ -1,6 +1,7 @@
 package com.fernando84.employeeapi.config;
 
 import com.fernando84.employeeapi.service.JwtAuthFilter;
+import com.fernando84.employeeapi.service.JwtAuthenticationEntryPoint;
 import com.fernando84.employeeapi.service.UserDetailsServiceImpl;
 
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
     private final JwtAuthFilter jwtAuthFilter;
     private final UserDetailsServiceImpl userDetailsService;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     private static final String[] PUBLIC_ENDPOINTS = {
             "/auth/**",
@@ -42,6 +44,8 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // No sessions, each request
                                                                                 // authenticates with it's token
                 )
+                .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint(jwtAuthenticationEntryPoint))
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
