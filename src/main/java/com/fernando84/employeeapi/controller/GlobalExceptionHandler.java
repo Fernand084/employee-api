@@ -16,11 +16,18 @@ import com.fernando84.employeeapi.exception.EmployeeNotFoundException;
 import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
     // --- Business exceptions: "Not Found" ---
     @ExceptionHandler({ EmployeeNotFoundException.class, DepartmentNotFoundException.class })
     public ResponseEntity<ErrorResponse> handleNotFound(RuntimeException ex, HttpServletRequest request) {
+        log.error("Unhandled NotFound error on {}: ", request.getRequestURI(), ex);
         return buildResponse(HttpStatus.NOT_FOUND, ex.getMessage(), request);
     }
 
@@ -31,24 +38,28 @@ public class GlobalExceptionHandler {
         String message = ex.getBindingResult().getFieldErrors().stream()
                 .map(fe -> fe.getField() + ": " + fe.getDefaultMessage())
                 .collect(Collectors.joining(", "));
+        log.error("Unhandled validation error on {}: ", request.getRequestURI(), ex);
         return buildResponse(HttpStatus.BAD_REQUEST, message, request);
     }
 
     // --- Security: invalid credentials on /auth/login ---
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<ErrorResponse> handleAuthentication(AuthenticationException ex, HttpServletRequest request) {
+        log.error("Unhandled authentication error on {}: ", request.getRequestURI(), ex);
         return buildResponse(HttpStatus.UNAUTHORIZED, "Invalid Credentials", request);
     }
 
     // --- Security: Authenticated User, not autoirzed ---
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ErrorResponse> handleAccessDenied(AccessDeniedException ex, HttpServletRequest request) {
+        log.error("Unhandled accessDenied error on {}: ", request.getRequestURI(), ex);
         return buildResponse(HttpStatus.FORBIDDEN, "You're not autorized to complete this action.", request);
     }
 
     // --- Catch-all: unexpected exceptions ---
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGeneric(Exception ex, HttpServletRequest request) {
+        log.error("Unhandled error on {}: ", request.getRequestURI(), ex);
         return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error", request);
     }
 
