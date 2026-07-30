@@ -16,7 +16,7 @@ import com.fernando84.employeeapi.service.JwtService;
 import com.fernando84.employeeapi.service.UserDetailsServiceImpl;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthController {
     private final AppUserRepository appUserRepository;

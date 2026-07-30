@@ -4,6 +4,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,11 +34,13 @@ public class DepartmentsController {
     }
 
     @GetMapping
+    @PreAuthorize("isAuthenticated()")
     public List<DepartmentDTO> getAllDepartments() {
         return departmentService.getAllDepartments();
     }
 
     @GetMapping("/{id}/employees")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Page<EmployeeDTO>> getDepartmentEmployees(@RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "250") int size,
             @PathVariable String id) {
@@ -46,7 +49,8 @@ public class DepartmentsController {
         return ResponseEntity.ok(employees);
     }
 
-    @GetMapping("/{id}/manager")
+    @GetMapping("/{id}/managers")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Page<ManagerDTO>> getManagersByDepartmentId(@RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size,
             @PathVariable String id) {

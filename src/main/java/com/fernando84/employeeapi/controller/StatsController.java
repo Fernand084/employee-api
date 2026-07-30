@@ -3,6 +3,7 @@ package com.fernando84.employeeapi.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,16 +26,19 @@ public class StatsController {
     }
 
     @GetMapping("/employees-per-department")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<EmployeesPerDepartmentDTO>> getEmployeeCounts() {
         return ResponseEntity.ok(departmentEmployeeService.countActiveEmployeesPerDepartment());
     }
 
     @GetMapping("/gender-distribution")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<GenderDistributionDTOProjection>> getGenderCount() {
         return ResponseEntity.ok(departmentEmployeeService.countGenderByDepartment());
     }
 
     @GetMapping("/titles-history")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<TitleHistoryDTOProjection>> getTitleHistory() {
         return ResponseEntity.ok(titleService.getTitleHistory());
     }
