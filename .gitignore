@@ -3,6 +3,7 @@ target/
 *.class
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
+**/src/main/**/debug/
 !**/src/test/**/target/
 *.jar
 
