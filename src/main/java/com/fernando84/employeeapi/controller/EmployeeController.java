@@ -7,8 +7,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,8 +24,10 @@ import com.fernando84.employeeapi.service.EmployeeService;
 import com.fernando84.employeeapi.service.SalaryService;
 import com.fernando84.employeeapi.service.TitleService;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+//import org.springframework.security.core.Authentication;
+//import org.springframework.security.core.context.SecurityContextHolder;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -105,21 +105,21 @@ public class EmployeeController {
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Employee> create(@RequestBody EmployeeOnboardingRequest request) {
-        System.out.println("DEBUG EmployeeController - received request: " + request);
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println(auth);
         Employee created = employeeOnboardingService.onboardEmployee(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
-    private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
-
-    @PostMapping("/debug-raw")
-    public String debugRaw(@RequestBody String rawBody) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println(auth);
-        System.out.println("RAW BODY RECEIVED: [" + rawBody + "]");
-        return rawBody;
-    }
+    /*
+     * private static final Logger log =
+     * LoggerFactory.getLogger(GlobalExceptionHandler.class);
+     * 
+     * @PostMapping("/debug-raw")
+     * public String debugRaw(@RequestBody String rawBody) {
+     * Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+     * System.out.println(auth);
+     * System.out.println("RAW BODY RECEIVED: [" + rawBody + "]");
+     * return rawBody;
+     * }
+     */
 
 }
