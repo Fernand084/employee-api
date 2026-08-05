@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fernando84.employeeapi.DTO.EmployeeDTO;
 import com.fernando84.employeeapi.DTO.EmployeeOnboardingRequest;
 import com.fernando84.employeeapi.exception.DepartmentNotFoundException;
 import com.fernando84.employeeapi.model.*;
@@ -23,7 +24,7 @@ public class EmployeeOnboardingService {
     private final TitlesRepository titlesRepository;
 
     @Transactional
-    public Employee onboardEmployee(EmployeeOnboardingRequest request) {
+    public EmployeeDTO onboardEmployee(EmployeeOnboardingRequest request) {
 
         System.out.println("DEBUG OnboardingService - received request: " + request);
 
@@ -66,6 +67,8 @@ public class EmployeeOnboardingService {
         title.setToDate(OPEN_ENDED_DATE);
         titlesRepository.save(title);
 
-        return employee;
+        Employee updated = employeeRepository.save(employee);
+
+        return new EmployeeDTO(updated.getId(), updated.getFirstName(), updated.getLastName(), updated.getHireDate());
     }
 }
