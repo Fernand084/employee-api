@@ -10,12 +10,14 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fernando84.employeeapi.DTO.EmployeeDTO;
 import com.fernando84.employeeapi.DTO.EmployeeOnboardingRequest;
+import com.fernando84.employeeapi.DTO.EmployeeUpdateRequest;
 import com.fernando84.employeeapi.DTO.SalaryDTO;
 import com.fernando84.employeeapi.DTO.TitleDTO;
 import com.fernando84.employeeapi.model.Employee;
@@ -23,6 +25,8 @@ import com.fernando84.employeeapi.service.EmployeeOnboardingService;
 import com.fernando84.employeeapi.service.EmployeeService;
 import com.fernando84.employeeapi.service.SalaryService;
 import com.fernando84.employeeapi.service.TitleService;
+
+import jakarta.validation.Valid;
 
 //import org.springframework.security.core.Authentication;
 //import org.springframework.security.core.context.SecurityContextHolder;
@@ -104,9 +108,17 @@ public class EmployeeController {
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Employee> create(@RequestBody EmployeeOnboardingRequest request) {
-        Employee created = employeeOnboardingService.onboardEmployee(request);
+    public ResponseEntity<EmployeeDTO> create(@RequestBody EmployeeOnboardingRequest request) {
+        EmployeeDTO created = employeeOnboardingService.onboardEmployee(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
+    }
+
+    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<EmployeeDTO> update(@PathVariable Long id,
+            @Valid @RequestBody EmployeeUpdateRequest request) {
+        EmployeeDTO updated = employeeService.updateEmployee(id, request);
+        return ResponseEntity.ok(updated);
     }
 
     /*
